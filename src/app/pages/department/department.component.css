@@ -1,0 +1,10 @@
+.container{
+    border: 3px solid green;
+    min-height: 100vh;
+    width: full;
+    padding: 5px;
+}
+.card{
+    border: 2px solid yellow;
+    
+}

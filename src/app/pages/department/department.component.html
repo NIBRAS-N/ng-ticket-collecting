@@ -1,1 +1,75 @@
-<p>department works!</p>
+<div class="row">
+    <div class="col-8">
+        <div class="card">
+
+            <div class="card-header bg-primary text-white">
+                department list
+            </div>
+            <div class="card-body">
+                <table class="table table-bordered table-striped">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Serial No</th>
+                            <th>Dept Name</th>
+                            <th>Dept Head</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                            <tr *ngFor="let item of alldept;let sr = index">
+                                <td>{{sr+1}}</td>
+                                
+                                <td>{{item.deptName | na}}</td>
+                                <td>{{item.deptHeadName | na}}</td>
+                                <td>
+                                    <button (click)="onEdit(item)" class="btn sm btn-success">Edit</button>
+                                    <button (click)="onDelete(item.deptId)" class="btn sm btn-warning">Delete</button>
+                                </td>
+                            </tr>
+                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-4">
+        <div class="card">
+            <div class="card-header bg-primary text-white mb-2 ">
+                Create new department
+            </div>
+            <div class="row p-2 mb-2">
+                <div class="col-12 mb-3">
+                    <label class="form-label">Department name</label>
+                    <input type="text" [(ngModel)]="DepartmentObj.deptName" class="form-control" name="" id="">
+                </div>
+                <div class="col-12">
+                    <label  class="form-label" for="">Select Department Head</label>
+
+                    <select 
+                        #selected
+                        aria-label="Default select example" 
+                        *ngIf="resp$|async as abcd" 
+                        [(ngModel)]="DepartmentObj.deptHeadEmpId" class="form-select" aria-label="select employy" 
+                    >
+                        <option selected="true"> select Employee </option>
+                        @for(item of abcd ; track $index){
+
+                            <option  [value]="item.employeeId">{{item.employeeName}}</option>
+                        }
+                    </select>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-12 text-center">
+                        <div class="btn-group gap-2" role="group" aria-label="Basic mixed styles example">
+
+                            <button type="button" (click)="clearField()" class="btn btn-danger">Reset</button>
+                            <button type="button" *ngIf="DepartmentObj.deptId ==0 " (click)="newDept()" class="btn btn-success">Save</button>
+                            <button type="button" *ngIf="DepartmentObj.deptId !=0 " (click)="updateDept()" class="btn btn-success">Update</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

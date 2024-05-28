@@ -26,6 +26,14 @@ html {
   position: relative;
 }
 
+button{
+  background-color: gray;
+  color: white;
+  padding: 10px;
+  border-radius: 1rem;
+  box-shadow: #fff;
+  cursor:pointer;
+}
 .login-box .user-box input {
   width: 100%;
   padding: 10px 0;
