@@ -1,5 +1,96 @@
-@for (item of employeeList.data; track $index) {
+<div class="row">
+    <div class="col-8">
+        <div class="card ">
+            <div class="card-header text-bg-dark p-3">
+                 Employee Details
+            </div>
+            <div class="card-body  ">
+                <div class="row">
+                    @for (item of allEmployee; track $index)  {
+                    <div class="col-4">
 
-    <p>{{item.employeeName}}</p>
-}
-<p>lol</p>
+                            <div class="card border-dark mb-3 text-center">
+                                <div class="card-header  bg-secondary text-white p-2"><i class="fa fa-user"></i> {{item.employeeName}} </div>
+                                <div class="card-body">
+                                    <div class="row  ">
+                                        <div class="col-6  mb-4 d-flex justify-content-center align-items-center gap-1">
+                                            <i class="fa fa-user"></i>{{item.deptName}}
+                                        </div>
+                                        <div class="col-6  mb-2 d-flex justify-content-center align-items-top gap-1 fs-6">
+                                            <i class="fa fa-phone"></i> {{item.contactNo}}
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6 d-flex justify-content-center align-items-center gap-1 fs-6">
+                                           <i class="fa fa-server"></i> {{item.role}}
+                                        </div>
+                                        <div class="col-6">
+                                            <i class="fa fa-envelope"></i>{{item.emailId}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-4">
+        <div class="card">
+            <div class="card-header text-bg-dark p-3">
+                New Employee
+            </div>
+            <div class="card-body bg-secondary text-white">
+                <div class="row">
+                    <div class="col-6">
+                        <label for="">Name</label>
+                        <input type="text" class="form-control form-control-sm" placeholder="Enter your name">
+                    </div>
+                    <div class="col-6">
+                        <label for="">Contact No</label>
+                        <input type="text" class="form-control form-control-sm" placeholder="Enter your number">
+                    </div>
+                </div>
+                <div class="row  mt-3">
+                    <div class="col-6">
+                        
+                            <label for="">Email</label>
+                            <input type="email" class="form-control form-control-sm" placeholder="Enter your Email">
+                        
+                    </div>
+                    <div class="col-6    gap-2 d-flex  justify-content-center align-items-center">
+                        <input class="form-check-input text-danger" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                        <label class="form-check-label" for="flexRadioDefault1">
+                          Male
+                        </label>    
+                        <input class="form-check-input text-danger " type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                        <label class="form-check-label " for="flexRadioDefault1">
+                          female
+                        </label>    
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-6">
+                        <label for="">password</label>
+                        <input type="password" class="form-control-sm" placeholder="enter password">
+                    </div>
+                    <div class="col-6">
+                        <label for="">Select Department</label>
+                        <select name="" id="" class="form-select"></select>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-6">
+                        <button type="button" class="btn btn-danger">Reset</button>
+                    </div>
+                    <div class="col-6">
+                        <button type="button" class="btn btn-success">Save</button>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -32,6 +32,7 @@ export const routes: Routes = [
             },
             {
                 path:"department",
+                // loadChildren:()=>import('./pages/pages.module').then(m=>m.PagesModule)
                 component:DepartmentComponent
             },
             {

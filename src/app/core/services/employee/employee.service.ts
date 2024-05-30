@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { apiResponse, LoginModel, Task } from '../../models/api-model';
-import { catchError, from, Observable, throwError } from 'rxjs';
+import { catchError, from, Observable, tap, throwError } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../../environments/environment.development';
 import { constant } from '../../constants/Constant';
@@ -77,5 +77,10 @@ export class EmployeeService {
     //   }),
     // catchError((err)=>{console.log("hello2 ",err);return throwError(()=>err)}))
     
+  }
+
+  getEmployeeById(id:number):Observable<apiResponse>{
+    return this.http.get<apiResponse>(environment.API_URL + constant.API_ENDPOINT.GET_EMPLOYEE_BY_ID+'?id='+id)
+    .pipe(tap(res=>res));
   }
 }
