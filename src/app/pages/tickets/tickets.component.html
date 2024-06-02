@@ -1,1 +1,120 @@
-<p>tickets works!</p>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header bg-success">
+
+                <div class="row">
+
+                    <div class="col-6 text-white">
+                        Ticket List
+                    </div>
+                    <div class="col-6 text-end">
+                        <button class="btn btn-success" (click)="openTicketModel()">New Ticket</button>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row ">
+                @for (item of ticketList; track $index) {
+
+                    <div class="col-4">
+
+                            <div class="card border-dark mb-3 text-center">
+                                <div class="card-header text-light bg-dark">Created BY: {{item.createdByEmployee}} </div>
+                                <div class="card-body">
+                                    <div class="row  ">
+                                        <div class="col-6  mb-4 d-flex justify-content-center align-items-center gap-1">
+                                            <i class="fa fa-user"></i>{{item.deptName}}
+                                        </div>
+                                        <div class="col-6  mb-2 d-flex justify-content-center align-items-top gap-1 fs-6">
+                                            Importance : {{item.severity}}
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6 d-flex justify-content-center align-items-center gap-1 fs-6">
+                                           <i class="fa fa-server"></i>end Date: {{item.expectedEndDate}}
+                                        </div>
+                                        <div class="col-6">
+                                            <i class="fa fa-envelope"></i>Start Date: {{item.createdDate}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12 border border-warning ">
+                                        <label for="" class="p-1 mb-2 bg-danger text-white">Ticket State </label> {{item.state}}
+                                    </div>
+                                    <div *ngIf="item.assignedToEmployee!=null" class="col-12 border border-warning ">
+                                        <select name="" id="" class="from-select">
+                                            <option value="">Select Employee</option>
+                                            <option value=""></option>
+                                        </select>
+                                    </div>
+    
+                                </div>
+                            </div>
+                    </div>
+
+                }
+            </div>
+                    
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="modal " #ticketModel id="ticketModel">
+    <div class="modal-dialog ">
+      <div class="modal-content p-3 mb-2 bg-secondary text-white">
+  
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">New ticket</h4>
+          <button type="button" (click)="closeTicketModel()" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+  
+        <!-- Modal body -->
+        <div class="modal-body ">
+
+          <div class="row ">
+            <div class="col-6 ">
+                <label for="">Select Department</label>
+                <select 
+                        #selected
+                        aria-label="Default select example" 
+                        *ngIf="departmentList$|async as abcd" 
+                        class="form-select" aria-label="select employy" 
+                        [(ngModel)]="ticketObj.deptId"
+                    >
+                        <option selected="true"> select Employee </option>
+                        @for(item of abcd ; track $index){
+
+                            <option  [value]="item.deptId">{{item.deptName}}</option>
+                        }
+                    </select>
+            </div>
+            <div class="col-6">
+                <label for="">Select Severity</label>
+                <select name="" id="" class="form-select" [(ngModel)]="ticketObj.severity">
+                    <option value="Low">Low</option>
+                    <option value="Medium">Medium</option>
+                    <option value="High">High</option>
+                </select>
+            </div>
+          </div>
+        </div>
+        <div class="div row">
+            <div class="col-12 d-flex flex-column justify-content-center">
+                <label for="">ENter Your Tickets Details</label>
+                <textarea name="" id="" cols="30" rows="10" [(ngModel)]="ticketObj.requestDetails"></textarea>
+            </div>
+        </div>
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" (click)="closeTicketModel()" class="btn btn-danger " data-bs-dismiss="modal">Close</button>
+          <button type="button" (click)="onCreateTicekt()" class="btn btn-danger " data-bs-dismiss="modal">Create Task</button>
+        </div>
+  
+      </div>
+    </div>
+  </div>

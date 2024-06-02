@@ -6,6 +6,7 @@ import { EmployeeComponent } from './pages/employee/employee.component';
 import { DepartmentComponent } from './pages/department/department.component';
 import { TicketsComponent } from './pages/tickets/tickets.component';
 import { NewTicketComponent } from './pages/new-ticket/new-ticket.component';
+import { authGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
     {
@@ -24,24 +25,29 @@ export const routes: Routes = [
         children:[
             {
                 path:"dashboard",
-                component:DashboardComponent
+                component:DashboardComponent,
+                canActivate: [authGuard]
             },
             {
                 path:"employee",
-                component:EmployeeComponent
+                component:EmployeeComponent,
+                canActivate: [authGuard]
             },
             {
                 path:"department",
                 // loadChildren:()=>import('./pages/pages.module').then(m=>m.PagesModule)
-                component:DepartmentComponent
+                component:DepartmentComponent,
+                canActivate: [authGuard]
             },
             {
                 path:"tickets",
-                component:TicketsComponent
+                component:TicketsComponent,
+                canActivate: [authGuard]
             },
             {
                 path:"new-tickets",
-                component:NewTicketComponent
+                component:NewTicketComponent,
+                canActivate: [authGuard]    
             },
           
         ]

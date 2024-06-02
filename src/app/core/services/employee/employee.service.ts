@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { apiResponse, LoginModel, Task } from '../../models/api-model';
+import { apiResponse, Employee, LoginModel, TicketModel } from '../../models/api-model';
 import { catchError, from, Observable, tap, throwError } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../../environments/environment.development';
@@ -83,4 +83,24 @@ export class EmployeeService {
     return this.http.get<apiResponse>(environment.API_URL + constant.API_ENDPOINT.GET_EMPLOYEE_BY_ID+'?id='+id)
     .pipe(tap(res=>res));
   }
+
+  addEmployee(obj:Employee):Observable<apiResponse>{
+    return this.http.post<apiResponse>(environment.API_URL + constant.API_ENDPOINT.CREATE_EMPLOYEE,obj).pipe(tap(res=>res));
+  }
+
+
+  createTicket(Obj:TicketModel){
+    return this.http.post<apiResponse>(environment.API_URL + constant.API_ENDPOINT.NEW_TICKET,Obj)
+  }
+
+  getTicketesByEMpId(id:number){
+    console.log(id,typeof id)
+    return this.http.get<apiResponse>(environment.API_URL + constant.API_ENDPOINT.TICKET_BY_EMPLOYEE+id)
+  }
+
+  getAllTicketsByHead(id:number){
+    console.log(id,typeof id)
+    return this.http.get<apiResponse>(environment.API_URL + constant.API_ENDPOINT.AlL_TICKETS_BY_HEAD+id);
+  }
+  
 }

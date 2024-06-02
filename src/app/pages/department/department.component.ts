@@ -47,7 +47,7 @@ export class DepartmentComponent implements OnInit   {
     this.resp$  = this.empService.getAllEmployee().pipe(map((res:apiResponse)=>res.data))
   }
   newDept(){
-    if(this.DepartmentObj.deptName != "" && this.DepartmentObj.deptName != undefined && this.DepartmentObj.deptHeadName !="" && this.DepartmentObj.deptHeadName != undefined ){
+    if((this.DepartmentObj.deptName != null && this.DepartmentObj.deptName != undefined ) && (this.DepartmentObj.deptHeadName != null && this.DepartmentObj.deptHeadName != undefined) ){
 
       this.deptService.CreateDept(this.DepartmentObj).subscribe(res=>{
         if(res.result){
@@ -60,6 +60,7 @@ export class DepartmentComponent implements OnInit   {
       })
     }
     else{
+      console.log(this.DepartmentObj);
       this.DepartmentObj = new Department();
       alert("invalid credintails , cant call the api")
     }

@@ -36,7 +36,7 @@ export class LoginComponent {
           this.router.navigateByUrl('/dashboard');
         }else{
           alert("login failed "+ `${res.message}` )
-          this.router.navigateByUrl('/dashboard');
+          // this.router.navigateByUrl('/dashboard');
         }
       },
       error:(res)=>{

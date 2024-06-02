@@ -9,7 +9,11 @@ export const constant = {
         GET_EMPLOYEE_BY_ID: "GetEmployeeById",
         CREATE_EMPLOYEE: "CreateEmployee",
         UPDATE_EMPLOYEE: "UpdateEmployee",
-        DELETE_EMPLOYEE: "DeleteEmployee"
+        DELETE_EMPLOYEE: "DeleteEmployee",
+        New_Employee : "CreateEmployee",
+        NEW_TICKET: "CreateNewTicket",
+        AlL_TICKETS_BY_HEAD : "getNewTickets?deptHeadEmpId=",
+        TICKET_BY_EMPLOYEE :"GetTicketsCreatedByEmpId?empId="
     },
     VALIDATION_MESSAGES:{
         REQUIRED: "This is Required",
