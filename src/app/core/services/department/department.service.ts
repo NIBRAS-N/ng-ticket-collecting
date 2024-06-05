@@ -28,5 +28,5 @@ export class DepartmentService {
   DeleteDept(id:number) : Observable<apiResponse> {
     return this.http.delete<apiResponse>(environment.API_URL + constant.API_ENDPOINT.DELETE_DEPARTMENT+id);
   }
-
+  
 }

@@ -2,27 +2,29 @@ import { Component, ElementRef, inject, NgModule, OnInit, ViewChild, viewChild }
 import { FormsModule, NgControl } from '@angular/forms';
 import { DepartmentService } from '../../core/services/department/department.service';
 import { apiResponse, Department, Employee } from '../../core/models/api-model';
-import { map, Observable } from 'rxjs';
+import { filter, map, Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { NaPipe } from "../../shared/pipes/na.pipe";
 import { EmployeeService } from '../../core/services/employee/employee.service';
-
+import { FilterPipe } from '../../shared/pipes/filter.pipe';
 @Component({
     selector: 'app-department',
     standalone: true,
     templateUrl: './department.component.html',
     styleUrl: './department.component.css',
-    imports: [FormsModule, CommonModule, NaPipe]
+    imports: [FormsModule, CommonModule, NaPipe, FilterPipe]
 })
 export class DepartmentComponent implements OnInit   {
   deptService:DepartmentService = inject(DepartmentService);
   empService:EmployeeService = inject(EmployeeService);
   resp$!:Observable<Employee[]>
   alldept:Department[]=[]
-  
+  empArray:Employee[] =[] 
+
   DepartmentObj: Department=new Department();
 
   @ViewChild('selected')abc!:ElementRef;
+  searchText:any;
 
   constructor(){
     this.getAllEmployee()
@@ -44,16 +46,29 @@ export class DepartmentComponent implements OnInit   {
     // console.log(this.selectedDepartment)
   }
   getAllEmployee(){
-    this.resp$  = this.empService.getAllEmployee().pipe(map((res:apiResponse)=>res.data))
+    this.resp$  = this.empService.getAllEmployee().pipe(map((res:apiResponse)=>{this.empArray=res.data;return res.data}))
   }
   newDept(){
-    if((this.DepartmentObj.deptName != null && this.DepartmentObj.deptName != undefined ) && (this.DepartmentObj.deptHeadName != null && this.DepartmentObj.deptHeadName != undefined) ){
+    console.log("no ", this.DepartmentObj.deptHeadEmpId , "  yes " , this.DepartmentObj.deptName)
+    const lastIdx = this.alldept.length -1;
+    this.alldept.push(
+      {
 
+        deptId:this.alldept[lastIdx].deptId+1,
+        deptName: this.DepartmentObj.deptName,
+        deptHeadEmpId: this.DepartmentObj.deptHeadEmpId,
+        createdDate: new Date(),
+        deptHeadName: this.DepartmentObj.deptHeadName
+      }
+    )
+    if((this.DepartmentObj.deptName ) && (this.DepartmentObj.deptHeadEmpId) ){
+      // debugger;
       this.deptService.CreateDept(this.DepartmentObj).subscribe(res=>{
         if(res.result){
           alert("Department Created successfully" + res.message);
           this.DepartmentObj = new Department();
-          this.ngOnInit()
+          // this.ngOnInit()
+          // this.loadDept();
         }else{
           alert("Somethin wrong " + res.message);
         }
@@ -62,7 +77,7 @@ export class DepartmentComponent implements OnInit   {
     else{
       console.log(this.DepartmentObj);
       this.DepartmentObj = new Department();
-      alert("invalid credintails , cant call the api")
+      alert("field empty , cant call the api")
     }
   }
 
@@ -81,7 +96,8 @@ export class DepartmentComponent implements OnInit   {
       if(res.result){
         alert("Department updated successfully" + res.message);
         this.DepartmentObj = new Department();
-        this.ngOnInit()
+        // this.ngOnInit()
+        this.loadDept();
       }else{
         alert("Department not updated " + res.message);
       }
@@ -95,11 +111,27 @@ export class DepartmentComponent implements OnInit   {
       this.deptService.DeleteDept(id).subscribe((rs:apiResponse)=>{
         if(rs.result){
           alert("deleted successfully "+ rs.message);
-          this.ngOnInit();
+          // this.ngOnInit();
+          this.loadDept();
         }else{
           alert("department not deleted "+ rs.message)
         }
       })
     }
+  }
+
+  departmentHead(e:string){
+    // this.DepartmentObj.deptHeadName=e
+    console.log(e,typeof e)
+    // const tgt = e.target as HTMLSelectElement;
+    // console.log(tgt)
+    // const selectedEmployeeId:number = +target.value ;
+    // console.log(selectedEmployeeId)
+    const selectedEmployee = this.empArray.find((res)=>res.employeeId === +e) as Employee
+    console.log(selectedEmployee);
+    // if(selectedEmployee){
+      this.DepartmentObj.deptHeadName = selectedEmployee.employeeName;
+      
+    // }
   }
 }

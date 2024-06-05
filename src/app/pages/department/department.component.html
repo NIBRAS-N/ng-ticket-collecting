@@ -6,6 +6,13 @@
                 department list
             </div>
             <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-7">
+                        <div class="form-outline mt-3">
+                            <input type="search" [(ngModel)]="searchText" class="form-control" placeholder="search" aria-label="search">
+                        </div>
+                    </div>
+                </div>
                 <table class="table table-bordered table-striped">
                     <thead class="thead-dark">
                         <tr>
@@ -17,7 +24,7 @@
                     </thead>
                     <tbody>
                         
-                            <tr *ngFor="let item of alldept;let sr = index">
+                            <tr *ngFor="let item of alldept|filter:searchText;let sr = index">
                                 <td>{{sr+1}}</td>
                                 
                                 <td>{{item.deptName | na}}</td>
@@ -51,6 +58,7 @@
                         aria-label="Default select example" 
                         *ngIf="resp$|async as abcd" 
                         [(ngModel)]="DepartmentObj.deptHeadEmpId" class="form-select" aria-label="select employy" 
+                        (ngModelChange)="departmentHead($event)"
                     >
                         <option selected="true"> select Employee </option>
                         @for(item of abcd ; track $index){

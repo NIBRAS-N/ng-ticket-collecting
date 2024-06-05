@@ -19,7 +19,7 @@ export class EmployeeService {
       'Access-Control-Allow-Methods': 'GET, POST, PATCH, PUT, DELETE, OPTIONS',
     });
     console.log(environment.API_URL + constant.API_ENDPOINT.LOGIN);
-    return this.http.post<apiResponse>(environment.API_URL + constant.API_ENDPOINT.LOGIN , data , {headers:headers});
+    return this.http.post<apiResponse>(environment.API_URL + constant.API_ENDPOINT.LOGIN , data , {headers});
   }
 
   getAllEmployee():Observable<apiResponse>{
