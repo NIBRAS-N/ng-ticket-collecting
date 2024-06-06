@@ -26,20 +26,74 @@ export class DepartmentComponent implements OnInit   {
   @ViewChild('selected')abc!:ElementRef;
   searchText:any;
 
+  paginatedItems:Department[]=[];
+  currentPage = 1;
+  itemsPerPage = 3;
+  totalPages = 0;
+
   constructor(){
     this.getAllEmployee()
   }
 
-  ngOnInit(): void {
-    console.log("lol")
-    this.loadDept()
+  async ngOnInit() {
+    
+    try {
+      await this.loadDept()
+      console.log("Department data loaded : " , this.alldept);
+      this.totalPages = Math.ceil(this.alldept.length / this.itemsPerPage);
+      this.updatePaginatedItems();
+    } catch (error) {
+      console.error('error loading department data ', error);
+    }
+
     
   }
-  loadDept(){
+  updatePaginatedItems(){
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    this.paginatedItems = this.alldept.slice(startIndex,endIndex);
+  }
+  goToPage(page:number){
+    if(page>=1 && page <= this.totalPages){
+      this.currentPage = page;
+      this.updatePaginatedItems();
+    }
+  }
+  nextPage(){
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.updatePaginatedItems();
+    }
+  }
+  prevPage(){
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.updatePaginatedItems();
+    }
+  }
+  getArray(length: number): number[] {
+    return Array.from({ length }, (_, i) => i + 1);
+  }
+  async loadDept():Promise<void>{
     // debugger;  
+    return new Promise((resolve,reject)=>{
+      
+      this.deptService.getAllDept().pipe(map((res:apiResponse)=>res.data))
+      .subscribe(
+        (res)=>{
+          this.alldept=res;
+          // console.log(this.alldept);
+          resolve();
+        },
+        (error)=>{
+          console.log(error);
+          reject(error);
+        }
     
-    this.deptService.getAllDept().pipe(map((res:apiResponse)=>res.data))
-    .subscribe((res)=>{this.alldept=res;console.log(this.alldept)});
+      );
+
+
+    });
     // setTimeout(() => {
     //   console.log(this.resp)
     // }, 1000);

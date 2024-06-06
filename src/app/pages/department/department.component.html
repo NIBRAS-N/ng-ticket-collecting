@@ -8,7 +8,7 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-sm-7">
-                        <div class="form-outline mt-3">
+                        <div class="form-outline mt-3 border border-2 border-white">
                             <input type="search" [(ngModel)]="searchText" class="form-control" placeholder="search" aria-label="search">
                         </div>
                     </div>
@@ -24,7 +24,8 @@
                     </thead>
                     <tbody>
                         
-                            <tr *ngFor="let item of alldept|filter:searchText;let sr = index">
+                            <!-- <tr *ngFor="let item of alldept|filter:searchText;let sr = index"> -->
+                            <tr *ngFor="let item of paginatedItems|filter:searchText;let sr = index">
                                 <td>{{sr+1}}</td>
                                 
                                 <td>{{item.deptName | na}}</td>
@@ -37,6 +38,23 @@
                         
                     </tbody>
                 </table>
+
+                <div class="row text-center">
+                    <div class="col-12 border-3 border border-white">
+                        <button class="btn btn-outline-dark" (click)="prevPage()" [disabled]="currentPage === 1">Previous</button>
+                        @for (item of getArray(totalPages); track $index) {
+
+                            <button 
+                                class="btn btn-outline-dark" 
+                                (click)="goToPage(item)"
+                                [class.active]="currentPage === item"
+                            >
+                                {{item}}
+                            </button>
+                        }
+                        <button class="btn btn-outline-dark" (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
