@@ -12,3 +12,34 @@
     font-weight: bold;
     text-decoration: underline;
   }
+
+
+
+.scrollable {
+    max-height: 100vh; /* Set the desired height */
+    overflow-y: scroll; /* Enable vertical scrolling */
+}
+
+/* Hide scrollbar for Chrome, Safari, and Opera */
+.scrollable::-webkit-scrollbar {
+    display: none;
+}
+
+/* Hide scrollbar for IE, Edge, and Firefox */
+.scrollable {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+}
+
+th {
+    cursor: pointer;
+    background-color: #f1f1f1;
+    border: 1px solid #ddd;
+    padding: 8px;
+    transition: background-color 0.3s ease;
+  }
+  
+  th:hover {
+    background-color: #ccc;
+  }
+  
