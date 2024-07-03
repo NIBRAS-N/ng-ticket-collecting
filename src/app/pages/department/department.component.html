@@ -1,134 +1,219 @@
 <div class="row">
-    <div class="col-8 scrollable">
-        <div class="row">
-            <div class="card">
-
-                <div class="card-header bg-primary text-white">
-                    department list
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-sm-7">
-                            <div class="form-outline mt-3 border border-2 border-white">
-                                <input type="search" [(ngModel)]="searchText" class="form-control" placeholder="search" aria-label="search">
-                            </div>
-                        </div>
-                    </div>
-                    <table class="table table-bordered table-striped">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th>Serial No</th>
-                                <th (click)="sortTable('deptName')" >Dept Name</th>
-                                <!-- <th  >Dept Name</th> -->
-                                <!-- <th>Dept Head</th> -->
-                                <th (click)="sortTable('deptHeadName')">Dept Head</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            
-                                <!-- <tr *ngFor="let item of alldept|filter:searchText;let sr = index"> -->
-                                <tr *ngFor="let item of paginatedItems|filter:searchText;let sr = index">
-                                    <td>{{(currentPage-1)*itemsPerPage+sr+1}}</td>
-                                    
-                                    <td>{{item.deptName | na}}</td>
-                                    <td>{{item.deptHeadName | na}}</td>
-                                    <td>
-                                        <button (click)="onEdit(item)" class="btn sm btn-success">Edit</button>
-                                        <button (click)="onDelete(item.deptId)" class="btn sm btn-warning">Delete</button>
-                                    </td>
-                                </tr>
-                            
-                        </tbody>
-                    </table>
-    
-                    <div class="row text-center">
-                        <div class="col-9 border-3 border border-white">
-                            <button class="btn btn-outline-dark" (click)="prevPage()" [disabled]="currentPage === 1">Previous</button>
-                            @for (item of getArray(totalPages); track $index) {
-    
-                                <button 
-                                    class="btn btn-outline-dark" 
-                                    (click)="goToPage(item)"
-                                    [class.active]="currentPage === item"
-                                >
-                                    {{item}}
-                                </button>
-                            }
-                            <button class="btn btn-outline-dark" (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
-                        </div>
-                        <div class="col-3 form-floating d-flex flex-wrap">
-                            <input 
-                                type="number" class="form-control" id="floatingInputGrid" name="floatingInputGrid" #floatingInputGrid="ngModel" placeholder="Default is 3" min="3" [(ngModel)]="itemsPerPage" (keydown.enter)="updatePaginatedItems()"
-                            >
-                            <label for="floatingInputGrid"  >Number of Items in a page </label>
-                            
-                        </div>
-                    </div>
-                </div>
+  <div class="col-8 scrollable">
+    <div class="row">
+      <div class="card">
+        <div class="card-header bg-primary text-white">department list</div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-sm-7">
+              <div class="form-outline mt-3 border border-2 border-white">
+                <input
+                  type="search"
+                  [(ngModel)]="searchText"
+                  class="form-control"
+                  placeholder="search"
+                  aria-label="search"
+                />
+              </div>
             </div>
-        </div>
-    </div>
-    <div class="col-4 scrollable ">
-        <div class="row ">
-            @for (item of multipleForm; track $index) {
+          </div>
+          <table class="table table-bordered table-striped">
+            <thead class="thead-dark">
+              <tr>
+                <th>Serial No</th>
+                <th (click)="sortTable(DeparmentColumnEnum.DEPT_NAME)">
+                  Dept Name
+                </th>
+                <!-- <th  >Dept Name</th> -->
+                <!-- <th>Dept Head</th> -->
+                <th (click)="sortTable(DeparmentColumnEnum.DEPT_HEAD_NAME)">
+                  Dept Head
+                </th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- <tr *ngFor="let item of alldept|filter:searchText;let sr = index"> -->
+              <tr
+                *ngFor="
+                  let item of paginatedItems | filter : searchText;
+                  let sr = index
+                "
+              >
+                <!-- <td>{{(currentPage-1)*itemsPerPage+sr+1}}</td> -->
+                <td>{{ item.slNo }}</td>
 
-               
-                    <form    #multipleSubmitForm="ngForm" (ngSubmit)="onSubmit(multipleSubmitForm,$index)">
-        
-                        <div class="card " >
-                            <div class="card-header bg-primary text-white mb-2 p-3 d-flex  justify-content-between ">
-                                
-                                <div>Create new department</div>
-                                
-                                <div>No : {{$index}}</div>
-                                <button (click)="removeForm($index)" [disabled]="multipleForm.length == 1" class="btn btn-danger fs-5 btn rounded-pill ">X</button>
-                            </div>
-                            <div class="row p-2 mb-2">
-                                <div class="col-12 mb-3">
-                                    <label class="form-label">Department name</label>
-                                    <input type="text" [(ngModel)]="item.deptName" class="form-control" name="abc" id="">
-                                </div>
-                                <div class="col-12">
-                                    <label  class="form-label" for="">Select Department Head</label>
-                
-                                    <select 
-                                        name="select"
-                                        #selected
-                                        aria-label="Default select example" 
-                                        *ngIf="resp$|async as abcd" 
-                                        [(ngModel)]="item.deptHeadEmpId" class="form-select " aria-label="select employy" 
-                                        (ngModelChange)="departmentHead($event,$index)"
-                                    >
-                                        
-                                        
-                                        @for(item2 of abcd ; track $index){
-                
-                                            <option   [value]="item2.employeeId">{{item2.employeeName}}</option>
-                                        }
-                                    </select>
-                                </div>
-                                <div class="row mt-2">
-                                    <div class="col-12 text-center">
-                                        <div class="btn-group gap-2" role="group" aria-label="Basic mixed styles example">
-                
-                                            <button type="button" (click)="clearField($index)" class="btn btn-danger">Reset</button>
-                                            <button type="button" *ngIf="item.deptId ==0 " (click)="newDept($index)" class="btn btn-success">Save</button>
-                                            <button type="button" *ngIf="item.deptId !=0 " (click)="updateDept($index)" class="btn btn-success">Update</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <button type="submit">Submit</button>
-                    </form>
-                    <div class="row p-4  text-center">
-                        <button (click)="addForm($index)" class="fs-1 btn btn-light"><i class="fa fa-plus"></i></button>
-                    </div>
-                
-            }
+                <td>{{ item.deptName | na }}</td>
+                <td>{{ item.deptHeadName | na }}</td>
+                <td>
+                  <button (click)="onEdit(item)" class="btn sm btn-success">
+                    Edit
+                  </button>
+                  <button
+                    (click)="onDelete(item.deptId)"
+                    class="btn sm btn-warning"
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="row text-center">
+            <div class="col-9 border-3 border border-white">
+              <button
+                class="btn btn-outline-dark"
+                (click)="prevPage()"
+                [disabled]="currentPage === 1"
+              >
+                Previous
+              </button>
+
+              @for (item of getArray(totalPages); track $index) {
+              <button
+                class="btn btn-outline-dark"
+                (click)="goToPage(item)"
+                [class.active]="currentPage === item"
+              >
+                {{ item }}
+              </button>
+              }
+
+              <button
+                class="btn btn-outline-dark"
+                (click)="nextPage()"
+                [disabled]="currentPage === totalPages"
+              >
+                Next
+              </button>
+            </div>
+
+            <div class="col-3  form-floating d-flex flex-wrap">
+              <input
+                type="number"
+                class="form-control "
+                id="floatingInputGrid"
+                name="floatingInputGrid"
+                #floatingInputGrid="ngModel"
+                placeholder="Default is 3"
+                min="3"
+                [(ngModel)]="itemsPerPage"
+                (keydown.enter)="updatePaginatedItems()"
+              />
+              <label class="text-wrap text-break fs-6 fw-lighter" for="floatingInputGrid">page element </label>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
+
+  <div class="col-4 scrollable">
+    <div class="row">
+      @if(isLoading) {  <div class="loader"></div> }
+      @else {
+
+        @for (item of multipleForm; track $index) {
+        <form
+          #multipleSubmitForm="ngForm"
+          (ngSubmit)="onSubmit(multipleSubmitForm, $index)"
+        >
+          <div class="card">
+            <div
+              class="card-header bg-primary text-white mb-2 p-3 d-flex justify-content-between"
+            >
+              <div>Create new department</div>
+  
+              <div>No : {{ $index }}</div>
+              <button
+                (click)="removeForm($index)"
+                [disabled]="multipleForm.length == 1"
+                class="btn btn-danger fs-5 btn rounded-pill"
+              >
+                X
+              </button>
+            </div>
+            <div class="row p-2 mb-2">
+              <div class="col-12 mb-3">
+                <label class="form-label">Department name</label>
+                <input
+                  type="text"
+                  [(ngModel)]="item.deptName"
+                  class="form-control"
+                  name="abc"
+                  id=""
+                />
+              </div>
+              <div class="col-12">
+                <label class="form-label" for="">Select Department Head</label>
+  
+                <select
+                  name="select"
+                  #selected
+                  aria-label="Default select example"
+                  *ngIf="resp$ | async as abcd"
+                  [(ngModel)]="item.deptHeadEmpId"
+                  class="form-select"
+                  aria-label="select employy"
+                  (ngModelChange)="departmentHead($event, $index)"
+                >
+                  <!-- @for(item2 of abcd ; track $index){ -->
+                  @for (item2 of empArray; track $index){
+                  <option [value]="item2.employeeId">
+                    {{ item2.employeeName }}
+                  </option>
+                  }
+                </select>
+              </div>
+  
+              <div class="row mt-2">
+                <div class="col-12 text-center">
+                  <div
+                    class="btn-group gap-2"
+                    role="group"
+                    aria-label="Basic mixed styles example"
+                  >
+                    <button
+                      type="button"
+                      (click)="clearField($index)"
+                      class="btn btn-danger"
+                    >
+                      Reset
+                    </button>
+                    <button
+                      type="button"
+                      *ngIf="item.deptId == 0 && $index === multipleForm.length-1"
+                      (click)="newDept()"
+                      class="btn btn-success"
+                    >
+                      Save
+                    </button>
+                    <button
+                      type="button"
+                      *ngIf="item.deptId != 0"
+                      (click)="updateDept($index)"
+                      class="btn btn-success"
+                    >
+                      Update
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button type="submit">Submit</button>
+        </form>
+        <div  *ngIf="editMode===false" class="row p-4 text-center">
+          <button  (click)="addForm($index)" class="fs-1 btn btn-light">
+            <i class="fa fa-plus"></i>
+          </button>
+        </div>
+  
+        }
+      }
+    </div>
+  </div>
 </div>
 
 <!-- <div class="row  justify-content-end " style="min-height: auto;">
